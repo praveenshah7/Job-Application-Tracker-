@@ -13,6 +13,7 @@ const JobSchema = new mongoose.Schema({
   salary: { type: String, default: '' },
   jobUrl: { type: String, default: '' },
   notes: { type: String, default: '' },
+  interviewDate: { type: Date, default: null },
   appliedDate: { type: Date, default: Date.now },
   createdAt: { type: Date, default: Date.now }
 });

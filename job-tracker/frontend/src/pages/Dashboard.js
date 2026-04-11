@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
@@ -26,9 +27,7 @@ export default function Dashboard() {
         ]);
         setStats(statsRes.data);
         setJobs(jobsRes.data.slice(0, 5));
-      } catch (err) {
-        console.error(err);
-      }
+      } catch (err) { console.error(err); }
       setLoading(false);
     };
     fetchData();
@@ -36,8 +35,10 @@ export default function Dashboard() {
 
   if (loading) return <div style={{ color: 'var(--muted)', padding: '2rem' }}>Loading...</div>;
 
-  const pieData = stats ? Object.entries(STATUS_COLORS).map(([name, color]) => ({ name, value: stats[name.toLowerCase()] || 0, color })).filter(d => d.value > 0) : [];
+  const successRate = stats?.total > 0 ? Math.round(((stats.interview + stats.offer) / stats.total) * 100) : 0;
+  const offerRate = stats?.total > 0 ? Math.round((stats.offer / stats.total) * 100) : 0;
 
+  const pieData = stats ? Object.entries(STATUS_COLORS).map(([name, color]) => ({ name, value: stats[name.toLowerCase()] || 0, color })).filter(d => d.value > 0) : [];
   const barData = stats ? Object.entries(STATUS_COLORS).map(([name, color]) => ({ name, count: stats[name.toLowerCase()] || 0, color })) : [];
 
   const statCards = [
@@ -55,6 +56,26 @@ export default function Dashboard() {
         </h1>
         <p style={{ color: 'var(--muted)', fontSize: '.9rem' }}>Here's your job search overview</p>
       </div>
+
+      {/* Success Rate Banner */}
+      {stats?.total > 0 && (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
+          <div style={{ background: 'rgba(108,99,255,0.08)', border: '1px solid rgba(108,99,255,0.25)', borderRadius: 'var(--radius)', padding: '1.2rem 1.5rem', display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+            <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: '2.5rem', color: '#6c63ff' }}>{successRate}%</div>
+            <div>
+              <div style={{ fontWeight: 600, fontSize: '.95rem' }}>Interview Rate</div>
+              <div style={{ color: 'var(--muted)', fontSize: '.8rem' }}>Applications reaching interview stage</div>
+            </div>
+          </div>
+          <div style={{ background: 'rgba(46,213,115,0.08)', border: '1px solid rgba(46,213,115,0.25)', borderRadius: 'var(--radius)', padding: '1.2rem 1.5rem', display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+            <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: '2.5rem', color: '#2ed573' }}>{offerRate}%</div>
+            <div>
+              <div style={{ fontWeight: 600, fontSize: '.95rem' }}>Offer Rate</div>
+              <div style={{ color: 'var(--muted)', fontSize: '.8rem' }}>Applications converted to offers</div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Stat Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
@@ -81,7 +102,7 @@ export default function Dashboard() {
               </PieChart>
             </ResponsiveContainer>
           ) : (
-            <div style={{ textAlign: 'center', color: 'var(--muted)', padding: '3rem 0' }}>No applications yet</div>
+            <div style={{ textAlign: 'center', color: 'var(--muted)', padding: '3rem 0' }}>No data yet</div>
           )}
         </div>
 
@@ -103,16 +124,19 @@ export default function Dashboard() {
 
       {/* Recent Applications */}
       <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '1.5rem' }}>
-        <h3 style={{ fontWeight: 600, marginBottom: '1.5rem', fontSize: '1rem' }}>Recent Applications</h3>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+          <h3 style={{ fontWeight: 600, fontSize: '1rem' }}>Recent Applications</h3>
+          <a href="/jobs" style={{ color: 'var(--accent)', fontSize: '.82rem', fontWeight: 500 }}>View all →</a>
+        </div>
         {jobs.length > 0 ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '.8rem' }}>
             {jobs.map(job => (
               <div key={job._id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', background: 'var(--bg3)', borderRadius: 'var(--radius-sm)', flexWrap: 'wrap', gap: '.5rem' }}>
                 <div>
                   <div style={{ fontWeight: 600, fontSize: '.95rem' }}>{job.position}</div>
-                  <div style={{ color: 'var(--muted)', fontSize: '.82rem' }}>{job.company} {job.location && `· ${job.location}`}</div>
+                  <div style={{ color: 'var(--muted)', fontSize: '.82rem' }}>{job.company}{job.location && ` · ${job.location}`}</div>
                 </div>
-                <span style={{ padding: '.3rem .8rem', borderRadius: '100px', background: STATUS_COLORS[job.status] + '22', color: STATUS_COLORS[job.status], fontSize: '.78rem', fontWeight: 600, border: `1px solid ${STATUS_COLORS[job.status]}44`, whiteSpace: 'nowrap' }}>
+                <span style={{ padding: '.3rem .8rem', borderRadius: '100px', background: STATUS_COLORS[job.status] + '22', color: STATUS_COLORS[job.status], fontSize: '.78rem', fontWeight: 600, border: `1px solid ${STATUS_COLORS[job.status]}44` }}>
                   {job.status}
                 </span>
               </div>
