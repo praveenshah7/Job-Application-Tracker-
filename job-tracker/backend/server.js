@@ -8,9 +8,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/jobs', require('./routes/jobs'));
+app.use('/api/ai', require('./routes/ai'));
 
 app.get('/', (req, res) => res.json({ message: 'Job Tracker API Running!' }));
 
