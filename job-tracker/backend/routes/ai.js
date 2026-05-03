@@ -28,23 +28,20 @@ Write a professional cover letter that:
 2. Highlights relevant skills matching the job
 3. Shows enthusiasm for the company
 4. Has a strong opening and closing
-5. Sounds natural and human, not AI-generated
+5. Sounds natural and human
 
 Write ONLY the cover letter content, starting with "Dear Hiring Manager," - no extra commentary.`;
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-opus-4-6',
-        max_tokens: 1024,
-        messages: [{ role: 'user', content: prompt }],
-      }),
-    });
+    const response = await fetch(
+`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { maxOutputTokens: 1024, temperature: 0.7 },
+        }),
+      }
+    );
 
     const data = await response.json();
 
@@ -52,7 +49,7 @@ Write ONLY the cover letter content, starting with "Dear Hiring Manager," - no e
       return res.status(500).json({ message: data.error.message });
     }
 
-    const coverLetter = data.content[0].text;
+    const coverLetter = data.candidates[0].content.parts[0].text;
     res.json({ coverLetter });
 
   } catch (err) {
