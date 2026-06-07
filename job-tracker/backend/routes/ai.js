@@ -33,12 +33,18 @@ Write a professional cover letter that:
 Write ONLY the cover letter content, starting with "Dear Hiring Manager," - no extra commentary.`;
 
     const response = await fetch(
-`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,      {
+      'https://api.groq.com/openai/v1/chat/completions',
+      {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+        },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { maxOutputTokens: 1024, temperature: 0.7 },
+          model: 'llama-3.1-8b-instant',
+          messages: [{ role: 'user', content: prompt }],
+          max_tokens: 1024,
+          temperature: 0.7,
         }),
       }
     );
@@ -49,7 +55,7 @@ Write ONLY the cover letter content, starting with "Dear Hiring Manager," - no e
       return res.status(500).json({ message: data.error.message });
     }
 
-    const coverLetter = data.candidates[0].content.parts[0].text;
+    const coverLetter = data.choices[0].message.content;
     res.json({ coverLetter });
 
   } catch (err) {
