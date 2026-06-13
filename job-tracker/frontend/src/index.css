@@ -1,34 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg: #0f0f13;
-  --bg2: #16161d;
-  --bg3: #1e1e28;
-  --bg4: #252533;
-  --accent: #6c63ff;
-  --accent2: #00d4aa;
-  --danger: #ff4757;
-  --warning: #ffa502;
-  --success: #2ed573;
-  --text: #e8e8f0;
-  --muted: #8b8a99;
-  --border: rgba(255,255,255,0.08);
-  --border2: rgba(255,255,255,0.15);
-  --radius: 12px;
-  --radius-sm: 8px;
+  --bg: #070711;
+  --bg2: #0e0e1a;
+  --bg3: #151524;
+  --bg4: #1c1c2e;
+  --accent: #7c6cfc;
+  --accent-glow: rgba(124,108,252,0.3);
+  --accent2: #06d6a0;
+  --accent3: #f72585;
+  --warning: #ffd60a;
+  --danger: #ff4d6d;
+  --success: #06d6a0;
+  --text: #e8e8f5;
+  --muted: #6e6e8a;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.12);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-xs: 6px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-accent: 0 0 40px rgba(124,108,252,0.15);
 }
+
+html { scroll-behavior: smooth; }
 
 body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
-::-webkit-scrollbar { width: 6px; }
+/* Noise texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg2); }
-::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
-::selection { background: rgba(108,99,255,0.3); color: var(--accent); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+::selection { background: rgba(124,108,252,0.3); color: var(--accent); }
 
 a { text-decoration: none; color: inherit; }
 button { cursor: pointer; font-family: inherit; }
