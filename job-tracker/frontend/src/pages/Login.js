@@ -36,7 +36,7 @@ export default function Login() {
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div>
               <label style={{ display: 'block', fontSize: '.82rem', color: 'var(--muted)', marginBottom: '.4rem', fontWeight: 500 }}>Email</label>
-              <input type="email" placeholder="praveenshah@gmail.com" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} required
+              <input type="email" placeholder="" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} required
                 style={{ width: '100%', padding: '.75rem 1rem', background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: 'var(--text)', fontSize: '.9rem', outline: 'none', transition: 'border-color 0.2s' }}
                 onFocus={e => e.target.style.borderColor = 'var(--accent)'}
                 onBlur={e => e.target.style.borderColor = 'var(--border)'}
@@ -44,7 +44,7 @@ export default function Login() {
             </div>
             <div>
               <label style={{ display: 'block', fontSize: '.82rem', color: 'var(--muted)', marginBottom: '.4rem', fontWeight: 500 }}>Password</label>
-              <input type="password" placeholder="••••••••" value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} required
+              <input type="password" placeholder="" value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} required
                 style={{ width: '100%', padding: '.75rem 1rem', background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: 'var(--text)', fontSize: '.9rem', outline: 'none', transition: 'border-color 0.2s' }}
                 onFocus={e => e.target.style.borderColor = 'var(--accent)'}
                 onBlur={e => e.target.style.borderColor = 'var(--border)'}

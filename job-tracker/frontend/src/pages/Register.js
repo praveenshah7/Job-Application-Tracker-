@@ -37,9 +37,9 @@ export default function Register() {
 
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {[
-              { label: 'Full Name', key: 'name', type: 'text', placeholder: 'Praveen Shah' },
-              { label: 'Email', key: 'email', type: 'email', placeholder: 'praveen@gmail.com' },
-              { label: 'Password', key: 'password', type: 'password', placeholder: '••••••••' },
+              { label: 'Full Name', key: 'name', type: 'text', placeholder: '' },
+              { label: 'Email', key: 'email', type: 'email', placeholder: '' },
+              { label: 'Password', key: 'password', type: 'password', placeholder: '' },
             ].map(field => (
               <div key={field.key}>
                 <label style={{ display: 'block', fontSize: '.82rem', color: 'var(--muted)', marginBottom: '.4rem', fontWeight: 500 }}>{field.label}</label>
